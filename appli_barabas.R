@@ -1,64 +1,103 @@
+tab_param <- data.frame("pi01"= c(30,30,20,23,30,30,20,30,15,15,10,11,3,30,20,23),
+                        "pi02"=c(25,25,25,22,25,25,25,28,12.5,12.5,12.5,11,2.5,25,25,22),
+                        "gamma1"=c(0.9,0.7,0.5,0.4,0.9,0.7,0.5,0.4,0.9,0.7,0.5,0.4,0.9,0.7,0.5,0.4),
+                        "gamma2"=c(0.8,0.6,0.6,0.4,0.8,0.6,0.6,0.4,0.8,0.6,0.6,0.4,0.8,0.6,0.6,0.4),
+                        "phi1"=c(0.5,0.2,0.2,0.19,0.5,0.2,0.2,0.19,0.5,0.2,0.2,0.19,0.5,0.2,0.2,0.19),
+                        "phi2"=c(0.4,0.18,0.25,0.2,0.4,0.22,0.25,0.2,0.4,0.18,0.25,0.2,0.4,0.18,0.25,0.2),
+                        "s1a"=c(0.5,0.4,0.6,0.2,0.5,0.4,0.4,0.6,0.5,0.4,0.6,0.2,0.5,0.4,0.6,0.2),
+                        "s2a"=c(0.6,0.6,0.5,0.4,0.6,0.6,0.3,0.5,0.6,0.6,0.5,0.4,0.6,0.6,0.5,0.4),
+                        "alpha11"=c(0.01,0.005,0.01,0.002,0.006,0.01,0.004,0.01,0.01,0.005,0.01,0.002,0.01,0.005,0.01,0.002),
+                        "alpha12"=c(0.008,0.004,0.009,0.003,0.007,0.004,0.004,0.005,0.008,0.004,0.009,0.003,0.008,0.004,0.009,0.003),
+                        "alpha21"=c(0.0045,0.007,0.0065,0.0045,0.0055,0.006,0.0075,0.0065,0.0045,0.007,0.0065,0.0045,0.0045,0.007,0.0065,0.0045),
+                        "alpha22"=c(0.01,0.01,0.01,0.003,0.004,0.01,0.01,0.01,0.01,0.01,0.01,0.003,0.01,0.01,0.01,0.003),
+                        "beta11"=c(0.01,0.01,0.003,0.01,0.01,0.004,0.003,0.004,0.01,0.01,0.003,0.01,0.01,0.01,0.003,0.01),
+                        "beta12"=c(0.007,0.008,0.003,0.008,0.007,0.003,0.005,0.008,0.007,0.008,0.003,0.008,0.007,0.008,0.003,0.008),
+                        "beta21"=c(0.0055,0.004,0.008,0.0045,0.0055,0.007,0.006,0.0065,0.0055,0.004,0.008,0.0045,0.0055,0.004,0.008,0.0045),
+                        "beta22"=c(0.01,0.006,0.01,0.004,0.01,0.01,0.004,0.002,0.01,0.006,0.01,0.004,0.01,0.006,0.01,0.004))
+
+tab_param <- as.matrix(tab_param)
+result_sensib <- list()
+result_inva <- list()
+
 ### CALCUL EQUILIBRE ###
 
-pi01=3
-pi02=2.5
-gamma1 =0.9
-gamma2 =0.8
-phi1=0.5
-phi2=0.4
-s1a=0.5
-s2a =0.6
-n1=c(1,1)
-n2=c(1,1)
-alpha11=0.01
-alpha12=0.008
-alpha21=0.0045
-alpha22=0.01
-beta11=0.01
-beta12=0.007
-beta21=0.0055
-beta22=0.01
+# pi01=3
+# pi02=2.5
+# gamma1 =0.9
+# gamma2 =0.8
+# phi1=0.5
+# phi2=0.4
+# s1a=0.5
+# s2a =0.6
+# n1=c(1,1)
+# n2=c(1,1)
+# alpha11=0.8
+# alpha12=0.7
+# alpha21=0.4
+# alpha22=0.8
+# beta11=0.8
+# beta12=0.5
+# beta21=0.4
+# beta22=0.7
+for (k in 1:16){
+  k=2
+pi01=tab_param[k,1]
+pi02=tab_param[k,2]
+gamma1=tab_param[k,3]
+gamma2=tab_param[k,4]
+phi1=tab_param[k,5]
+phi2=tab_param[k,6]
+s1a=tab_param[k,7]
+s2a=tab_param[k,8]
+alpha11=tab_param[k,9]
+alpha12=tab_param[k,10]
+alpha21=tab_param[k,11]
+alpha22=tab_param[k,12]
+beta11=tab_param[k,13]
+beta12=tab_param[k,14]
+beta21=tab_param[k,15]
+beta22=tab_param[k,16]
+n1=c(0,1)
+n2=c(0,1)
+# ## only fertility ##
+# n1=c(1,1)
+# n2=c(1,1)
+# for (i in 1:1000){
+#   R1f=alpha11*n1[2]+alpha12*n2[2]
+#   R2f=alpha21*n1[2]+alpha22*n2[2]
+#   A1=matrix(c((1-gamma1)*phi1, pi01/(1+R1f), gamma1*phi1, s1a), 2,2, byrow = TRUE)
+#   A2=matrix(c((1-gamma2)*phi2, pi02/(1+R2f), gamma2*phi2, s2a), 2,2, byrow = TRUE)
+#   n1=A1%*%n1
+#   n2=A2%*%n2
+# }
+# n1
+# n2
+# Ralpha1 = alpha22*R1f/(R2f*alpha12)
+# Ralpha2= alpha11*R2f/(R1f*alpha21)
 
 
-## only fertility ##
-n1=c(1,1)
-n2=c(1,1)
-for (i in 1:1000){
-  R1f=alpha11*n1[2]+alpha12*n2[2]
-  R2f=alpha21*n1[2]+alpha22*n2[2]
-  A1=matrix(c((1-gamma1)*phi1, pi01/(1+R1f), gamma1*phi1, s1a), 2,2, byrow = TRUE)
-  A2=matrix(c((1-gamma2)*phi2, pi02/(1+R2f), gamma2*phi2, s2a), 2,2, byrow = TRUE)
-  n1=A1%*%n1
-  n2=A2%*%n2
-}
-n1
-n2
-Ralpha1 = alpha22*R1f/(R2f*alpha12)
-Ralpha2= alpha11*R2f/(R1f*alpha21)
 
-
-
-## only survival ##
-n1=c(1,1)
-n2=c(1,1)
-for (i in 1:1000){
-  R1s=beta11*n1[2]+beta12*n2[2]
-  R2s=beta21*n1[2]+beta22*n2[2]
-  A1=matrix(c((1-gamma1)*phi1/(1+R1s), pi01, gamma1*phi1/(1+R1s), s1a), 2,2, byrow = TRUE)
-  A2=matrix(c((1-gamma2)*phi2/(1+R2s), pi02, gamma2*phi2/(1+R2s), s2a), 2,2, byrow = TRUE)
-  n1=A1%*%n1
-  n2=A2%*%n2
-}
-n1
-n2
-Rbeta1 = beta22*R1s/(R2f*beta12)
-Rbeta2= beta11*R2f/(R1f*beta21)
+# ## only survival ##
+# n1=c(1,1)
+# n2=c(1,1)
+# for (i in 1:1000){
+#   R1s=beta11*n1[2]+beta12*n2[2]
+#   R2s=beta21*n1[2]+beta22*n2[2]
+#   A1=matrix(c((1-gamma1)*phi1/(1+R1s), pi01, gamma1*phi1/(1+R1s), s1a), 2,2, byrow = TRUE)
+#   A2=matrix(c((1-gamma2)*phi2/(1+R2s), pi02, gamma2*phi2/(1+R2s), s2a), 2,2, byrow = TRUE)
+#   n1=A1%*%n1
+#   n2=A2%*%n2
+# }
+# n1
+# n2
+# Rbeta1 = beta22*R1s/(R2s*beta12)
+# Rbeta2= beta11*R2s/(R1s*beta21)
 
 
 ## both ##
 n1_both=c(1,1)
 n2_both=c(1,1)
-for (i in 1:1000){
+for (i in 1:10000){
   R1s=beta11*n1_both[2]+beta12*n2_both[2]
   R2s=beta21*n1_both[2]+beta22*n2_both[2]
   R1f=alpha11*n1_both[2]+alpha12*n2_both[2]
@@ -70,9 +109,22 @@ for (i in 1:1000){
 }
 n1_both
 n2_both
+# Ralpha1 = alpha22*R1f/(R2f*alpha12)
+# Ralpha2= alpha11*R2f/(R1f*alpha21)
+# Rbeta1 = beta22*R1s/(R2f*beta12)
+# Rbeta2= beta11*R2f/(R1f*beta21)
 
+R1a<-pi01/((1/(gamma1*phi1))*(1-s1a)*(1-phi1+gamma1*phi1))-1
+R2a<-pi02/((1/(gamma2*phi2))*(1-s2a)*(1-phi2+gamma2*phi2))-1
+Ralpha1 <- R1a*alpha22/(R2a*alpha12)
+Ralpha2 <- R2a*alpha11/(R1a*alpha21)
+
+R1b <- phi1/((1-s1a)/((1-gamma1)*(1-s1a)+pi01*gamma1))-1
+R2b <- phi2/((1-s2a)/((1-gamma2)*(1-s2a)+pi02*gamma2))-1
+
+Rbeta1 <- R1b*beta22/(R2b*beta12)
+Rbeta2 <- R2b*beta11/(R1b*beta21)
 #### ANALYSE SENSIBILITE ####
-## both ##
 
 n1j= n1_both[1]
 n1a=n1_both[2]
@@ -487,7 +539,11 @@ dn_dbeta11 = -Mij_inv%*%gj_beta11
 dn_dbeta12 = -Mij_inv%*%gj_beta12
 dn_dbeta21 = -Mij_inv%*%gj_beta21
 dn_dbeta22 = -Mij_inv%*%gj_beta22
+dn1_dE <- c(dn_dpi01[1],dn_dpi02[1],dn_dgamma1[1],dn_dgamma2[1],dn_dphi1[1],dn_dphi2[1],dn_ds1a[1],dn_ds2a[1],dn_dalpha11[1],dn_dalpha12[1],dn_dalpha21[1],dn_dalpha22[1],dn_dbeta11[1],dn_dbeta12[1],dn_dbeta21[1],dn_dbeta22[1])
+dn2_dE <- c(dn_dpi01[2],dn_dpi02[2],dn_dgamma1[2],dn_dgamma2[2],dn_dphi1[2],dn_dphi2[2],dn_ds1a[2],dn_ds2a[2],dn_dalpha11[2],dn_dalpha12[2],dn_dalpha21[2],dn_dalpha22[2],dn_dbeta11[2],dn_dbeta12[2],dn_dbeta21[2],dn_dbeta22[2])
 
-result =data.frame(dn_dpi01, dn_dpi02, dn_dgamma1,dn_dgamma2,dn_dphi1,dn_dphi2,dn_ds1a,dn_ds2a,dn_dalpha11,dn_dalpha12,dn_dalpha21,dn_dalpha22,dn_dbeta11,dn_dbeta12,dn_dbeta21,dn_dbeta22)
-rownames(result) = c("dn1/dE", "dn2/dE")
-View(result)
+result_sensib[[k]]=cbind(tab_param[k,],dn1_dE,dn2_dE)
+result_inva[[k]] =c(Ralpha1, Ralpha2, Rbeta1, Rbeta2)
+}
+View(result_sensib)
+View(result_inva)
