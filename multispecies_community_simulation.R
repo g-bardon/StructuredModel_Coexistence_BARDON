@@ -11,7 +11,7 @@ na = rep(10, S)
 Rs=rep(0, 20)
 Rf=rep(0, 20)
 A=list()
-for (c in 1:100){
+for (c in 1:200){
   for (i in 1:S){
     Rs[i] = alpha[,i] %*% na 
     Rf[i] = beta[,i] %*% na 
@@ -34,7 +34,7 @@ simul_sans_correl <- function (){
   adult_surv = rbeta(S, 15,10) ## Loi beta, distribution piquée centrée en 15/25
   
   alpha_intra = rnorm(S, 0.5, 0.1)  # Tirage des coef de competition intra selon loi normale 
-  alpha_inter = rnorm(S*S, 0.05, 0.003) # Tirage des coef de competition inter selon loi normale : toutes les esp sont en competition avec toutes les autres
+  alpha_inter = rnorm(S*S, 0.1, 0.005) # Tirage des coef de competition inter selon loi normale : toutes les esp sont en competition avec toutes les autres
   alpha=matrix(0,S,S)   ## Matrice de tous les coef de competition alpha : colonne i correspond à la competition exercée sur l'espèce i
   for (i in 1:S){
     for (j in 1:S){
@@ -46,8 +46,8 @@ simul_sans_correl <- function (){
     }
   }
   
-  beta_intra = rnorm(S, 0.5, 0.05)
-  beta_inter = rnorm(S*S, 0.05, 0.001)
+  beta_intra = rnorm(S, 0.5, 0.1)
+  beta_inter = rnorm(S*S, 0.1, 0.005)
   beta=matrix(0,S,S)  ## Matrice de tous les coef de competition beta : colonne i correspond à la competition exercée sur l'espèce i
   for (i in 1:S){
     for (j in 1:S){
@@ -62,8 +62,8 @@ simul_sans_correl <- function (){
   return(algo_simul(S, fert, mat_rate, juv_surv, adult_surv, alpha, beta))  ## Appel de la fonction de simulation de la dyn 
 }
 
-
-### Chaque espece est forte dans l'une des competition et faible dans l'autre : tirage des coefficients selon deux loi normales avec des moyennes differentes
+### Parametrage avec chaque espece forte dans l'une des competition et faible dans l'autre 
+# Tirage des coefficients selon deux loi normales avec des moyennes differentes
 
 simul_correl <- function(){
   S = 20
@@ -74,15 +74,15 @@ simul_correl <- function(){
   alpha <- matrix(0, 20, 20)
   beta <- matrix(0, 20, 20)
   for (i in 1:S){
-    mean_distrib_fort <- rep(0.04, 20)
-    mean_distrib_fort[i] <- 0.4
-    mean_distrib_faible <- rep(0.06, 20)
-    mean_distrib_faible[i] <- 0.6
+    mean_distrib_fort <- rep(0.05, 20)
+    mean_distrib_fort[i] <- 0.25
+    mean_distrib_faible <- rep(0.15, 20)
+    mean_distrib_faible[i] <- 0.75
     
-    sigma_distrib_fort <- rep(0.001^2, 20)
+    sigma_distrib_fort <- rep(0.0025^2, 20)
     sigma_distrib_fort[i] <- 0.05^2
-    sigma_distrib_faible <- rep(0.001^2, 20)
-    sigma_distrib_faible[i] <- 0.05^2
+    sigma_distrib_faible <- rep(0.0075^2, 20)
+    sigma_distrib_faible[i] <- 0.15^2
     
     x1=rmvnorm(n=1, mean=mean_distrib_fort, sigma=diag(sigma_distrib_fort))  ## Tirage des coefficients de compet ou l'esp est favorisee
     x2=rmvnorm(n=1, mean=mean_distrib_faible, sigma=diag(sigma_distrib_faible)) ## Tirage des coefficients de compet ou l'esp est defavorisee
@@ -113,4 +113,3 @@ hist(sans_correl)
 ## resultat : pas de différence significative entre les différents cas
 # -> faire le modèle differement car ici peu d'impact de l'espèce elle même sur sa survie car toute les espèces participent à la competition
 # -> Introduire des espèces qui n'interagissent pas 
-# -> pour chaque espece, mettre de la correlation positive entre tous les alphaij et entre tous les betaij et une correlation negative entre les alpha et les beta
