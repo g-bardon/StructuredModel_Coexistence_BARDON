@@ -2,8 +2,8 @@ library("MASS")
 library("mvtnorm")
 
 
-## Fonction pour simuler la dynamique sur 200 generations
-## Retourne le nombre d'esp qui subsistent
+## Function to simulate the dynamic of the population over 200 generations
+## It returns the number of species that subsist at the end of the simulation
 
 algo_simul <- function(S, fert, mat_rate, juv_surv, adult_surv, alpha, beta){  
   nj = rep(5, S)
@@ -24,35 +24,35 @@ algo_simul <- function(S, fert, mat_rate, juv_surv, adult_surv, alpha, beta){
   return(sum(na+nj>1))
 }    
 
-## Parametrage avec correlation negative entre aij et bij
+## Parameterization of to draw the vital rates of species constituting the community -> change parameters of distributions to change the equalization levels
 parametrage <- function (){
   S = 40
-  fert = rlnorm(S, meanlog = 3, sdlog=0.5)  ## loi log normale pour la fertilité, assez petite variance sinon très grosse fertilité possibles
-  mat_rate = rbeta(S, 5,8) ## Loi beta, distribution piquée centrée en 8/13
-  juv_surv = rbeta(S, 5,8) ## Loi beta, distribution piquée centrée en 8/13
-  adult_surv = rbeta(S, 5,8) ## Loi beta, distribution piquée centrée en 8/13
+  fert = rlnorm(S, meanlog = 3, sdlog=0.5)  ## log normale law for the fertility
+  mat_rate = rbeta(S, 5,5) ##  beta law
+  juv_surv = rbeta(S, 5,5) ##  beta law
+  adult_surv = rbeta(S, 5,5) ##  beta law 
   
-  alpha_intra = rnorm(S, 0.05, 0.01)  # Tirage des coef de competition intra selon loi normale 
+  alpha_intra = rnorm(S, 0.05, 0.01)  # Normal distribution for the intra-specific coefficients 
   beta_intra = rnorm(S, 0.05, 0.01)
-  alpha_beta_inter = rmvnorm(n=S*(S-1), mean=c(0.003,0.003), sigma=matrix(c(0.001^2, -(0.001^2)*0.9, -(0.001^2)*0.9, 0.001^2), 2,2, byrow = TRUE)) 
-  alpha=matrix(0,S,S)   ## Matrice de tous les coef de competition alpha : colonne i correspond à la competition exercée sur l'espèce i
-  beta=matrix(0,S,S)  ## Matrice de tous les coef de competition beta : colonne i correspond à la competition exercée sur l'espèce i
+  alpha_beta_inter = rmvnorm(n=S*(S-1), mean=c(0.03,0.03), sigma=matrix(c(0.02^2, -(0.02^2)*0.9, -(0.02^2)*0.9, 0.02^2), 2,2, byrow = TRUE)) ## bivariate normal law for the inter-specific coefficient -> negative correaltion between alpha's and beta's
+  alpha=matrix(0,S,S) ## Matrix of all alpha's coefficient :  i colum corresponds to the competition affecting species i
+  beta=matrix(0,S,S)  ## Matrix of all beta's coefficient :  i colum corresponds to the competition affecting species i
   
   c=1
    for (i in 1:S){
     for (j in 1:S){
       if (i==j){
-        alpha[i,j] <- alpha_intra[i]  ## Coef de compet intra sur la diag
+        alpha[i,j] <- alpha_intra[i]  ## Intra-specific coeffient on the diagonal
         beta[i,j] <- beta_intra[i]
       }else{
-        alpha[i,j] <- alpha_beta_inter[c,1] ## Coef de compet inter dans le reste de la matrice, tiré dans le pool de coef alpha_beta_inter
+        alpha[i,j] <- alpha_beta_inter[c,1] ## Inter-specific coefficient on the off-diagnonal
         beta[i,j] <- alpha_beta_inter[c,2]
         c=c+1
       }
     }
   }
   
-  return(list(S,fert, mat_rate, juv_surv, adult_surv, alpha, beta))   ## Retourne le jeu de parametre avec de la correlation entre alpha ij et beta ij
+  return(list(S,fert, mat_rate, juv_surv, adult_surv, alpha, beta))   ## Parameter set with correlation between alpha ij and beta ij
 }
 
 param = parametrage()
@@ -60,21 +60,24 @@ x_ref = algo_simul(param[[1]],param[[2]],param[[3]],param[[4]],param[[5]],param[
 beta = param[[7]]
 
 
-### Permutation des coef pour décorreler les coef alphaij betaij : permuter les coef de beta
+### Permutation of inter-specific coefficients beta to decorrelate alphaij and betaij
 x <- c()
-for (k in 1:500){  
-  liste_beta_permu <- sample(beta[which(lower.tri(beta) | upper.tri(beta))], length(beta[which(lower.tri(beta) | upper.tri(beta))]))  ## Recup tous les coef beta qui ne sont pas sur la diag et permute
+for (k in 1:200){  
+  liste_beta_permu <- sample(beta[which(lower.tri(beta) | upper.tri(beta))], length(beta[which(lower.tri(beta) | upper.tri(beta))]))  
   beta_permu <- beta 
   c=1
-  for (i in 1:40){
-    for (j in 1:40){
+  for (i in 1:S){
+    for (j in 1:S){
       if (i!=j){
-        beta_permu[i,j] <- liste_beta_permu[c] ## On remet un coef au hasard sur chaque case de la matrice excepté la diagonale (coef intra)
+        beta_permu[i,j] <- liste_beta_permu[c]
         c=c+1
       }
     }
   }
-  x = c(x,algo_simul(param[[1]],param[[2]],param[[3]],param[[4]],param[[5]],param[[6]],beta_permu))  ## indice i de x -> result de la dynamique d'un jeu de param avec permutation
+  x = c(x,algo_simul(param[[1]],param[[2]],param[[3]],param[[4]],param[[5]],param[[6]],beta_permu))  ## index i of x -> result of the dynamic simulation for the parameter set with permutation
 }
-hist(x, xlim=c(0,40),breaks=1:40)
-x_ref
+
+color= rep("white", S)
+color[x_ref] = "cyan"
+x<- c(x,x_ref)
+hist(x, xlim=c(0,S),breaks=0:S, col=color, xlab = "Number of species at equilibrium", main = "5 species, low equalization")

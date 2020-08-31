@@ -4,7 +4,7 @@
 
 
 
-source("C:/Users/Gael/Documents/Stage_IMB/Scripts R/sensitivity_analysis_function.R")
+source("sensitivity_analysis_function.R")
 library(ggplot2)
 library('plot.matrix')
 
