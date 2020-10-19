@@ -87,6 +87,7 @@ ggplot(data, aes(fill=data[,4], y=data[,3], x=data[,1])) +
   guides(fill=guide_legend("Parameter set"))+
   labs(title = "Elasticities of the parameters for the species 2")
 
+a=list()
 param_set_index = c(1,2,3)
 for (i in 1:3){
   n=colSums(equi_simul(tab_param[i,]))
@@ -109,8 +110,10 @@ for (i in 1:3){
   
   plot3 <- ggplot(borne_coexist[9:16,], aes(x=rownames(borne_coexist[9:16,]), y=borne_coexist[9:16,1])) + 
     geom_pointrange(ymin=(borne_coexist[9:16,1]+borne_coexist[9:16,2]), ymax=(borne_coexist[9:16,1]+borne_coexist[9:16,3]))+ 
-    coord_cartesian(ylim = c(0, 0.2))+
+    coord_cartesian(ylim = c(0, 0.4))+
     xlab("competition parameters") + ylab("")
   
-  grid.arrange(plot1, plot2, plot3, ncol=3, nrow = 1)
+  a[[i]] <- plot_grid(plot1, plot2, plot3, ncol=3, nrow = 1, labels = LETTERS[i])
 }
+
+plot_grid(a[[1]], a[[2]], a[[3]], ncol=1, nrow = 3)
