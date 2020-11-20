@@ -1,6 +1,11 @@
 ## Codes used for analyses in "Structured models of competition to understand the coexistence of species" manuscript
 All codes have been written in R by Gaël Bardon.
-The codes correspond to:
+
+The "New_analysis_article" folder contains codes to perform the analysis presented in the article.
+
+
+The "old_analysis" folder corresponds to the codes used before september 2020. These codes were used to perform analysis described in "Rapport M2 Gael Bardon".
+The codes in this folder correspond to:
 - computation_R0_combined_model.R : Computation of invasion criteria in the combined model (section 2.4)
 - conics_intersection_plot.R : Representation of the intersection of the conic sections (section 2.5)
 - multispecies_community_simulation.R : Simulation of population dynamics in communities with large number of species. (section 4.3)
