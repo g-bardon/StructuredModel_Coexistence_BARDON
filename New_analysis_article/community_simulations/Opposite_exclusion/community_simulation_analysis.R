@@ -52,7 +52,14 @@ color= rep("white", S)
 color[x_ref] = "gray"
 x <- read.csv("results_simul_permut.csv")[,1]
 x<- c(x,x_ref)
+
+cairo_pdf("hist_opposite_exclusion_only.pdf")
 hist(x, xlim=c(0,S),breaks=0:S, col=color, xlab = "Number of species at time t", main = paste(S, "species, low variance"))
+dev.off()
+
+cairo_ps("hist_opposite_exclusion_only.eps")
+hist(x, xlim=c(0,S),breaks=0:S, col=color, xlab = "Number of species at time t", main = paste(S, "species, low variance"))
+dev.off()
 
 ## 
 test_inv_score = c()
@@ -73,11 +80,19 @@ for (i in 1:S){
   }
 }
 test_inv_score <- as.factor(test_inv_score)
+cairo_pdf("pairwise_opposite_exclusion_only.pdf")
 ggplot(data.frame(test_inv_score), aes(x=test_inv_score)) +
   geom_bar()+
   xlab("1=Coexistence, 2=Priority effect, 3=Opposite exclusion, 4=Other case")+
   labs(title="Outcomes suggested by invasion criteria of pairs of species")
+dev.off()
 
+cairo_ps("pairwise_opposite_exclusion_only.eps")
+ggplot(data.frame(test_inv_score), aes(x=test_inv_score)) +
+  geom_bar()+
+  xlab("1=Coexistence, 2=Priority effect, 3=Opposite exclusion, 4=Other case")+
+  labs(title="Outcomes suggested by invasion criteria of pairs of species")
+dev.off()
 ##
 
 traj_ref = algo_simul_traj(gen, S, ini, param[,1],param[,2],param[,3],param[,4],alpha,beta)

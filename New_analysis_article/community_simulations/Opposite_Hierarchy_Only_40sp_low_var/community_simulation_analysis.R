@@ -80,12 +80,23 @@ ggplot(data.frame(test_inv_score), aes(x=test_inv_score)) +
 
 ##
 
+cairo_pdf("opposite_hier_dynamic.pdf", width = 10)
 traj_ref = algo_simul_traj(gen, S, ini, param[,1],param[,2],param[,3],param[,4],alpha,beta)
-plot(1:gen, traj_ref[1,], type="l", ylim = c(0, max(traj_ref)), xlab="Generation", ylab="Individual per species")
+plot(1:gen, traj_ref[1,], type="l", ylim = c(0, max(traj_ref)), xlab="Generations", ylab="Individual per species")
 for (s in 2:S){
   lines(traj_ref[s,])
 }
-title("Population dynamic of 40 species with opposite hierarchy of competition coefficient")
+title("Population dynamics of 40 species with opposite competitive hierarchies")
+dev.off()
+
+cairo_ps("opposite_hier_dynamic.eps", width = 10)
+traj_ref = algo_simul_traj(gen, S, ini, param[,1],param[,2],param[,3],param[,4],alpha,beta)
+plot(1:gen, traj_ref[1,], type="l", ylim = c(0, max(traj_ref)), xlab="Generations", ylab="Individual per species")
+for (s in 2:S){
+  lines(traj_ref[s,])
+}
+title("Population dynamics of 40 species with opposite competitive hierarchies")
+dev.off()
 ##
 
 ### TEST RANK

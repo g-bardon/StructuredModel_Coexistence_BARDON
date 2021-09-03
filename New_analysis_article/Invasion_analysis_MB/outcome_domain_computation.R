@@ -5,6 +5,7 @@
 library("gridExtra")
 library(ggplot2)
 library(cowplot)
+library(Cairo)
 
 ## Function to compute the border of the outcome domains on alpha from invasion criteria
 computation_border_combined <- function(pi1,pi2, gamma1,gamma2, phi1,phi2, sa1,sa2, alpha11, alpha22, beta11, beta12, beta21, beta22){
@@ -65,7 +66,7 @@ a <- ggplot(data=rect_ref, aes(x=c(0,0.5), y=c(0,0.5)))+
   geom_rect(data = rect_ref,aes(x = NULL,y = NULL,xmin = xmin,xmax = xmax,ymin = ymin,ymax = ymax, fill = grp)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   scale_fill_manual(values = c('grey',"white","grey20", "grey50"))+
-  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("Only competition on fertility (only \u03B1)")+ 
+  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("Competition on fertility only (\u03B2 = 0)")+ 
   theme(plot.title = element_text(size = 12, face = "bold"))
 
 ### Reference beta =alpha
@@ -84,7 +85,7 @@ b <- ggplot(data=rect_alpha_eq_beta, aes(x=c(0,0.5), y=c(0,0.5)))+
   geom_segment(aes(x = border_ref[1], y = 0, xend = border_ref[1], yend = 0.5), linetype="dashed", size=1)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   scale_fill_manual(values = c('grey',"white","grey20", "grey50"))+
-  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 = \u03B1")+ 
+  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("Competitions on both vital rates with \u03B2 = \u03B1")+ 
   theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")
 
 
@@ -102,7 +103,7 @@ c <- ggplot(data=rect_coexistence, aes(x=c(0,0.5), y=c(0,0.5)))+
   geom_segment(aes(x = border_ref[1], y = 0, xend = border_ref[1], yend = 0.5), linetype="dashed", size=1)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   scale_fill_manual(values = c('grey',"white","grey20", "grey50"))+
-  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2's suggests coexistence ")+ 
+  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 suggests coexistence ")+ 
   theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")
 
 ### Beta suggest exclusion sp 2
@@ -120,7 +121,7 @@ d <- ggplot(data=rect_exclu_sp2, aes(x=c(0,0.5), y=c(0,0.5)))+
   geom_segment(aes(x = border_ref[1], y = 0, xend = border_ref[1], yend = 0.5), linetype="dashed", size=1)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   scale_fill_manual(values = c('grey',"white","grey20", "grey50"))+
-  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2's suggests exclusion of species 1")+ 
+  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 suggests exclusion of species 1")+ 
   theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")
 
 #### BEta suggests priority effect
@@ -137,7 +138,7 @@ e <- ggplot(data=rect_priorityeffect, aes(x=c(0,0.5), y=c(0,0.5)))+
   geom_segment(aes(x = border_ref[1], y = 0, xend = border_ref[1], yend = 0.5), linetype="dashed", size=1)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   scale_fill_manual(values = c('grey',"white","grey20", "grey50"))+
-  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2's suggests a priority effect")+ 
+  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 suggests a priority effect")+ 
   theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")
 
 #### Combined figurewith labels
@@ -145,4 +146,6 @@ f <- get_legend(a)
 a <- a + theme(legend.position = "none")
 plot_grid(a, b,c,d,e,f, labels=c("A", "B","C","D", "E"), ncol = 2, nrow = 3)
 
-
+cairo_pdf(file = "MB_outcome_domains_full.pdf", width = 8)
+plot_grid(a, b,c,d,e,f, labels=c("A", "B","C","D", "E"), ncol = 2, nrow = 3)
+dev.off()

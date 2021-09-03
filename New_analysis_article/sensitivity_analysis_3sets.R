@@ -79,7 +79,7 @@ data <- as.data.frame(data)
 data[,2] <- as.numeric(as.character(data[,2]))
 data[,3] <- as.numeric(as.character(data[,3]))
 # Grouped species 1
-ggplot(data, aes(fill=data[,4], y=data[,2], x=data[,1])) + 
+elast_sp1 = ggplot(data, aes(fill=data[,4], y=data[,2], x=data[,1])) + 
   geom_bar(position="dodge", stat="identity")  +  scale_fill_grey() +
   scale_x_discrete(limits = name_param, labels= 
                      c("pi1"=expression(pi[1]), "pi2"=expression(pi[2]), "gamma1"=expression(gamma[1]), "gamma2"=expression(gamma[2]), 
@@ -91,7 +91,7 @@ ggplot(data, aes(fill=data[,4], y=data[,2], x=data[,1])) +
   labs(title = "Elasticities of the parameters for the species 1")
 
 # Grouped species 2
-ggplot(data, aes(fill=data[,4], y=data[,3], x=data[,1])) + 
+elast_sp2 = ggplot(data, aes(fill=data[,4], y=data[,3], x=data[,1])) + 
   geom_bar(position="dodge", stat="identity")  + scale_fill_grey() +
   scale_x_discrete(limits = name_param, labels= 
                      c("pi1"=expression(pi[1]), "pi2"=expression(pi[2]), "gamma1"=expression(gamma[1]), "gamma2"=expression(gamma[2]), 
@@ -102,6 +102,14 @@ ggplot(data, aes(fill=data[,4], y=data[,3], x=data[,1])) +
   ylab("Elasticity") + xlab("") + 
   guides(fill=guide_legend("Parameter set"))+
   labs(title = "Elasticities of the parameters for the species 2")
+
+cairo_pdf("combined_elast_3sets.pdf")
+plot_grid(elast_sp1, elast_sp2, ncol=1, nrow=2)
+dev.off()
+
+cairo_ps("combined_elast_3sets.eps")
+plot_grid(elast_sp1, elast_sp2, ncol=1, nrow=2)
+dev.off()
 
 a=list()
 param_set_index = c(1,2,3)
@@ -135,5 +143,10 @@ for (i in 1:3){
   a[[i]] <- plot_grid(plot1, plot2, plot3, ncol=3, nrow = 1, labels = LETTERS[i])
 }
 
+cairo_pdf("coexistence_domains_3sets.pdf", width = 10)
 plot_grid(a[[1]], a[[2]], a[[3]], ncol=1, nrow = 3)
+dev.off()
 
+cairo_ps("coexistence_domains_3sets.eps", width = 10)
+plot_grid(a[[1]], a[[2]], a[[3]], ncol=1, nrow = 3)
+dev.off()
