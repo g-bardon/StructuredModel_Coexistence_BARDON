@@ -91,7 +91,8 @@ c <- ggplot(data=rect_coexistence, aes(x=c(0,0.5), y=c(0,0.5)))+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   scale_fill_manual(values = c('grey',"white","grey20", "grey50"))+
   xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 suggests coexistence ")+ 
-  theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")
+  theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")+
+  geom_point(aes(x=0.06,y=0.05), shape=8)
 
 ### Beta suggest exclusion sp 2
 
@@ -109,7 +110,8 @@ d <- ggplot(data=rect_exclu_sp2, aes(x=c(0,0.5), y=c(0,0.5)))+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   scale_fill_manual(values = c('grey',"white","grey20", "grey50"))+
   xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 suggests exclusion of species 1")+ 
-  theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")
+  theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")+
+  geom_point(aes(x=0.112,y=0.02), shape=8)
 
 #### BEta suggests priority effect
 PE_border <- computation_border_combined(30,25,0.7,0.8,0.5,0.4,0.5,0.6,0.1,0.1,0.1,0.155,0.165,0.1)
@@ -126,7 +128,8 @@ e <- ggplot(data=rect_priorityeffect, aes(x=c(0,0.5), y=c(0,0.5)))+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   scale_fill_manual(values = c('grey',"white","grey20", "grey50"))+
   xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 suggests a priority effect")+ 
-  theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")
+  theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")+
+  geom_point(aes(x=0.035,y=0.043), shape=8)
 
 #### Combined figurewith labels
 f <- get_legend(a)
