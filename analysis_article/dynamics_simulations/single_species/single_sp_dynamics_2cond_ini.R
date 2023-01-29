@@ -76,7 +76,7 @@ for(i in 1:4){
        ylim=c(0, 1.2*max(N1j[i,]+N1a[i,])),cex.lab = 1.2,lty = 1, lwd = 1 , col='cyan')
   title(situation_names[i])
   lines(TimeVec,N1j_2[i,]+N1a_2[i,],lty = 1,lwd=1,col=alpha(rgb(0,0,0.9), 0.3))
-  legend(150,50,legend=c(expression("n"['j']*"(0) = 0", "n"['j']*"(0) = 50")), col=c("cyan", alpha(rgb(0,0,0.9), 0.3)), lty=1, cex=0.7)
+  legend(150,50,legend=c(expression("n"['j']*"(0) = 50", "n"['j']*"(0) = 0")), col=c("cyan", alpha(rgb(0,0,0.9), 0.3)), lty=1, cex=0.7)
 }
 dev.off()
 
@@ -141,7 +141,7 @@ for(i in 1:4){
        ylim=c(0, 1.2*max(N1j[i,]+N1a[i,])),cex.lab = 1.2,lty = 1, lwd = 1 , col='cyan')
   title(situation_names[i])
   lines(TimeVec,N1j_2[i,]+N1a_2[i,],lty = 1,lwd=1,col=alpha(rgb(0,0,0.9), 0.3))
-  legend(150,50,legend=c(expression("n"['j']*"(0) = 0", "n"['j']*"(0) = 50")), col=c("cyan", alpha(rgb(0,0,0.9), 0.3)), lty=1, cex=0.7)
+  legend(150,50,legend=c(expression("n"['j']*"(0) = 50", "n"['j']*"(0) = 0")), col=c("cyan", alpha(rgb(0,0,0.9), 0.3)), lty=1, cex=0.7)
 }
 dev.off()
 
