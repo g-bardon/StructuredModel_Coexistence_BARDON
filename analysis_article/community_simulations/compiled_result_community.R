@@ -181,12 +181,12 @@ cairo_pdf("pairwise_interaction_opp_hier_only.pdf")
 ggplot(data.frame(test_inv_score), aes(x=test_inv_score)) +
   geom_bar()+
   xlab("1=Coexistence, 2=Priority effect, 3=Opposite exclusion, 4=Other case")+
-  labs(title="Outcomes suggested by invasion criteria of pairs of species")
+  labs(title="Outcomes indicated by invasion criteria of pairs of species")
 dev.off()
 
 cairo_ps("pairwise_interaction_opp_hier_only.eps")
 ggplot(data.frame(test_inv_score), aes(x=test_inv_score)) +
   geom_bar()+
   xlab("1=Coexistence, 2=Priority effect, 3=Opposite exclusion, 4=Other case")+
-  labs(title="Outcomes suggested by invasion criteria of pairs of species")
+  labs(title="Outcomes indicated by invasion criteria of pairs of species")
 dev.off()
