@@ -103,7 +103,7 @@ c <- ggplot(data=rect_coexistence, aes(x=c(0,0.5), y=c(0,0.5)))+
   geom_segment(aes(x = border_ref[1], y = 0, xend = border_ref[1], yend = 0.5), linetype="dashed", size=1)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   scale_fill_manual(values = c('grey',"white","grey20", "grey50"))+
-  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 suggests coexistence ")+ 
+  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 indicates coexistence ")+ 
   theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")
 
 ### Beta suggest exclusion sp 2
@@ -121,7 +121,7 @@ d <- ggplot(data=rect_exclu_sp2, aes(x=c(0,0.5), y=c(0,0.5)))+
   geom_segment(aes(x = border_ref[1], y = 0, xend = border_ref[1], yend = 0.5), linetype="dashed", size=1)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   scale_fill_manual(values = c('grey',"white","grey20", "grey50"))+
-  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 suggests exclusion of species 1")+ 
+  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 indicates exclusion of species 1")+ 
   theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")
 
 #### BEta suggests priority effect
@@ -138,7 +138,7 @@ e <- ggplot(data=rect_priorityeffect, aes(x=c(0,0.5), y=c(0,0.5)))+
   geom_segment(aes(x = border_ref[1], y = 0, xend = border_ref[1], yend = 0.5), linetype="dashed", size=1)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   scale_fill_manual(values = c('grey',"white","grey20", "grey50"))+
-  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 suggests a priority effect")+ 
+  xlab(expression(alpha[21]))+ylab(expression(alpha[12]))+ guides(fill=guide_legend(title="Outcome predicted by the invasion criteria"))+ggtitle("\u03B2 indicates a priority effect")+ 
   theme(plot.title = element_text(size = 12, face = "bold"))+theme(legend.position = "none")
 
 #### Combined figurewith labels
